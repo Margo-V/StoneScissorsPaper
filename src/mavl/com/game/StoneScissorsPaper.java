@@ -4,52 +4,80 @@ import java.util.*;
 
 class Items{
     enum ItemsList {STONE, SCISSORS, PAPER}
-
-    Items(int itemNumber) {
-        ItemsList il = ItemsList.values()[itemNumber];
+    public static ItemsList getItem(String getItem){
+        try {
+            return ItemsList.valueOf(getItem);
+        }
+        catch (IllegalArgumentException ex){
+            return null;
+        }
     }
-    void printItem(){
+    static void printItem(){
         for(int i=0; i<ItemsList.values().length;i++){
-            System.out.println((i+1) + " " +ItemsList.values()[i]);
-
+            System.out.println(ItemsList.values()[i]);
+//            System.out.println((i+1) + " " +ItemsList.values()[i]);
         }
     }
 }
 
 interface Answers{
-    void getAnswer();
+    void setAnswer();
+    Items.ItemsList getAnswer();
 }
 
 abstract class Player implements Answers{
-    String answer;
+    Items.ItemsList answer;
 
     public Player(){}
 }
 
 class User extends Player{
-    User(){
-        Scanner sc = new Scanner(System.in);
-        answer=sc.nextLine().toLowerCase();
-    }
+    User(){}
     @Override
-    public void getAnswer(){
-        System.out.println();
+    public void setAnswer(){
+        Scanner sc = new Scanner(System.in);
+        answer= Items.getItem(sc.nextLine().toUpperCase());
+
     }
+    public Items.ItemsList getAnswer(){
+        return answer;
+    }
+    boolean checkAnswer(Items.ItemsList answer){
+        return answer!=null ? true:false;
+    }
+
 }
 
 
 class Robot extends Player{
     Robot(){
-        answer = "1";
+
     }
-    public void getAnswer(){
-        System.out.println();
+    public void setAnswer(){
+        answer=Items.ItemsList.values()[(int) (Math.random()*(Items.ItemsList.values().length-1))];
+    }
+    public Items.ItemsList getAnswer(){
+        return answer;
     }
 }
 class StoneScissorsPaper{
     void print(){
-        Items items= new Items(0);
-        System.out.println();
+        System.out.println("Let's start!");
+//        System.out.println("The first player will be:");
+        Robot robot = new Robot();
+        robot.setAnswer();
+        Items.ItemsList answerRobot = robot.getAnswer();
+//        System.out.println(answerRobot);
+        System.out.println("\nChoose item: ");
+        Items.printItem();
+        User user =new User();
+        user.setAnswer();
+        Items.ItemsList answerUser = user.getAnswer();
+        if(user.checkAnswer(answerUser)){
+            System.out.println("Your answer: " + answerUser);
+        }else{
+            System.out.println("Nothing found");
+        }
     }
 }
 
