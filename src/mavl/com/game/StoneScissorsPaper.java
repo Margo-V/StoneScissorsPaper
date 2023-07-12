@@ -1,10 +1,61 @@
 package mavl.com.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class StoneScissorsPaper {
+class Items{
+    enum ItemsList {STONE, SCISSORS, PAPER}
+
+    Items(int itemNumber) {
+        ItemsList il = ItemsList.values()[itemNumber];
+    }
+    void printItem(){
+        for(int i=0; i<ItemsList.values().length;i++){
+            System.out.println((i+1) + " " +ItemsList.values()[i]);
+
+        }
+    }
+}
+
+interface Answers{
+    void getAnswer();
+}
+
+abstract class Player implements Answers{
+    String answer;
+
+    public Player(){}
+}
+
+class User extends Player{
+    User(){
+        Scanner sc = new Scanner(System.in);
+        answer=sc.nextLine().toLowerCase();
+    }
+    @Override
+    public void getAnswer(){
+        System.out.println();
+    }
+}
+
+
+class Robot extends Player{
+    Robot(){
+        answer = "1";
+    }
+    public void getAnswer(){
+        System.out.println();
+    }
+}
+class StoneScissorsPaper{
+    void print(){
+        Items items= new Items(0);
+        System.out.println();
+    }
+}
+
+
+/*
+class StoneScissorsPaper {
     ArrayList<String> arr=
             new ArrayList<String>(List.of("Stone", "Scissors", "Paper"));
 
@@ -109,3 +160,4 @@ public class StoneScissorsPaper {
 
     }
 }
+*/
